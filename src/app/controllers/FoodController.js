@@ -17,12 +17,14 @@ class FoodController {
     }
     
     async store(req, res) {
+        console.log("Body recebido:", req.body);
         const food = req.body
         const row = await FoodRepository.create(food)
         res.json(row)
     }
 
     async update(req, res) {
+        console.log("Body recebido:", req.body);
         const id = req.params.id
         const food = req.body
         

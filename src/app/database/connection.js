@@ -19,7 +19,11 @@ const connection = mysql.createConnection({
 export const query = (sql, values='', mensageReject) => {
         return new Promise((resolve, reject) => {
             connection.query(sql, values, (err, result) => {
-                if(err) return reject(mensageReject)
+                if (err) {
+                    console.error("Erro MySQL:", err)
+                    return reject(mensageReject)
+                }
+                
 
                 const row = JSON.parse(JSON.stringify(result))
                 return resolve(row)

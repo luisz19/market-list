@@ -3,14 +3,17 @@ import {query} from "../database/connection.js"
 class FoodRepository {
 
     //caso mude o DB, é necessário refatorar
-    create(food) {
+    async create(food) {
         const sql = 'INSERT INTO food SET ?;'
-        return query(sql, food, 'Não foi possível cadastrar')
+        const result = await query(sql, food, 'Não foi possível cadastrar')
+
+        return this.findById(result.insertId) //aqui utiliza async await pq tem que esperar o resultado para depois fazer a query
+        
     }
 
     findAll() {
         const sql = 'SELECT * FROM food;'
-        return query(sql, 'Não foi possível buscar')
+        return query(sql, 'Não foi possível buscar') //nao utiliza async await pq a Promise omite 
     }
 
     findById(id) {
@@ -18,14 +21,22 @@ class FoodRepository {
         return query(sql, id, 'Não foi possível buscar o item')
     }
 
-    update(food, id) {
+    async update(food, id) {
         const sql = 'UPDATE food SET ? WHERE id = ?;'
-        return query(sql, [food, id], 'Não foi possível atualizar')
+        await query(sql, [food, id], 'Não foi possível atualizar')
+
+        const result = await this.findById(id)
+
+        return result
     }
 
-    delete(id) {
+    async delete(id) {
         const sql = 'DELETE FROM food WHERE id = ?;'
-        return query(sql, id, 'Não foi possível apagar')
+        await query(sql, id, 'Não foi possível apagar')
+
+        const result = await this.findById(id)
+
+        return result
     }
 }
 
