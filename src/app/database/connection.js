@@ -18,7 +18,7 @@ const connection = mysql.createConnection({
 /**
  * Executa um código SQL com ou sem valores
  * @param {string} sql instrução SQL a ser executada
- * @param {string=id | [food, id]} values a serem passado para o sql, pode ser valor ou nada
+ * @param {string=id | [item, id]} values a serem passado para o sql, pode ser valor ou nada
  * @param {string} mensageReject mensagem a ser exibida
  * @returns objeto da Promisse
  */

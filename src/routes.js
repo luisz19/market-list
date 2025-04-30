@@ -1,13 +1,13 @@
 import { Router } from "express";
-import FoodController from './app/controllers/FoodController.js'
+import ItemController from './app/controllers/ItemController.js'
 
 const router = Router()
 
 //ROTAS
-router.get('/food', FoodController.index)
-router.get('/food/:id', FoodController.show)
-router.post('/food', FoodController.store)
-router.delete('/food/:id', FoodController.delete)
-router.put('/food/:id', FoodController.update)
+router.get('/item', ItemController.index)
+router.get('/item/:id', ItemController.show)
+router.post('/item', ItemController.store)
+router.delete('/item/:id', ItemController.delete)
+router.put('/item/:id', ItemController.update)
 
 export default router

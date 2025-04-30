@@ -1,29 +1,29 @@
 import {query} from "../database/connection.js"
 
-class FoodRepository {
+class ItemRepository {
 
     //caso mude o DB, é necessário refatorar
-    async create(food) {
-        const sql = 'INSERT INTO food SET ?;'
-        const result = await query(sql, food, 'Não foi possível cadastrar')
+    async create(item) {
+        const sql = 'INSERT INTO item SET ?;'
+        const result = await query(sql, item, 'Não foi possível cadastrar')
 
         return this.findById(result.insertId) //aqui utiliza async await pq tem que esperar o resultado para depois fazer a query
         
     }
 
     findAll() {
-        const sql = 'SELECT * FROM food;'
+        const sql = 'SELECT * FROM item;'
         return query(sql, 'Não foi possível buscar') //nao utiliza async await pq a Promise omite 
     }
 
     findById(id) {
-        const sql = 'SELECT * FROM food WHERE id = ?;'
+        const sql = 'SELECT * FROM item WHERE id = ?;'
         return query(sql, id, 'Não foi possível buscar o item')
     }
 
-    async update(food, id) {
-        const sql = 'UPDATE food SET ? WHERE id = ?;'
-        await query(sql, [food, id], 'Não foi possível atualizar')
+    async update(item, id) {
+        const sql = 'UPDATE item SET ? WHERE id = ?;'
+        await query(sql, [item, id], 'Não foi possível atualizar')
 
         const result = await this.findById(id)
 
@@ -31,7 +31,7 @@ class FoodRepository {
     }
 
     async delete(id) {
-        const sql = 'DELETE FROM food WHERE id = ?;'
+        const sql = 'DELETE FROM item WHERE id = ?;'
         await query(sql, id, 'Não foi possível apagar')
 
         const result = await this.findById(id)
@@ -40,4 +40,4 @@ class FoodRepository {
     }
 }
 
-export default new FoodRepository()
+export default new ItemRepository()
