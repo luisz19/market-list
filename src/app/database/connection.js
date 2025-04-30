@@ -1,11 +1,14 @@
 import mysql from 'mysql'
 
+import dotenv from 'dotenv';
+
+dotenv.config();
+
 const PASSWORD = process.env.SQL_PASSWORD
 const NAME = process.env.SQL_NAME_DATABASE
 const PORT = process.env.SQL_PORT
 const USER = process.env.SQL_USER
 const HOST = process.env.SQL_HOST
-
 
 const connection = mysql.createConnection({
     host: HOST,
