@@ -19,6 +19,11 @@ class UserRepository {
         return query(sql, id, 'Não foi possível buscar o usuário')
     }
 
+    findByEmail(email) {
+        const sql = 'SELECT * FROM user WHERE email = ?'
+        return query(sql, email, 'Não foi possível encontrar o email do usuário')
+    }
+
     async update(user, id) {
         const sql = 'UPDATE user SET ? WHERE id = ?'
         const result = query(sql, [user, id], 'Não foi possível atualizar o usuário')

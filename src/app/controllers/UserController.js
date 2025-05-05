@@ -1,4 +1,5 @@
 import UserRepository from "../repositories/UserRepository.js";
+import bcrypt from 'bcrypt';
 
 class UserController {
     async index(req, res) {
@@ -13,9 +14,19 @@ class UserController {
     }
 
     async store (req, res) {
-        const user = req.body
+        const saltRounds = 10;
+        const {name, email, password} = req.body
+        const hashedPassword = await bcrypt.hash(password, saltRounds)
+
+        const user = {
+            name,
+            email, 
+            password: hashedPassword
+        }
+
         const row = await UserRepository.create(user)
-        res.json(row)
+
+        return res.status(201).json(row)
     }
 
     async update (req, res) {

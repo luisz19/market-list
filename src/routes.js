@@ -13,7 +13,7 @@ router.put('/item/:id', ItemController.update)
 
 router.get('/users', UserController.index)
 router.get('/user/:id', UserController.show)
-router.post('/user', UserController.store)
+router.post('/register', UserController.store)
 router.delete('/user/:id', UserController.delete)
 router.put('/user/:id', UserController.update)
 
