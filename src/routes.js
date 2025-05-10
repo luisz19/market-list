@@ -1,6 +1,7 @@
 import { Router } from "express";
 import ItemController from './app/controllers/ItemController.js'
 import UserController from "./app/controllers/UserController.js";
+import ListController from "./app/controllers/ListController.js";
 
 const router = Router()
 
@@ -17,5 +18,11 @@ router.post('/register', UserController.store)
 router.delete('/user/:id', UserController.delete)
 router.put('/user/:id', UserController.update)
 router.post('/login', UserController.login)
+
+router.get('/lists', ListController.index)
+router.get('/list/:id', ListController.show)
+router.post('/lists', ListController.store)
+router.delete('/list/:id', ListController.delete)
+router.put('/list/:id', ListController.update)
 
 export default router
