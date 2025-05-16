@@ -26,12 +26,12 @@ class ListController {
                 return res.status(404).json({ message: 'Usuário criador não encontrado' });
             }
             const listData = { name, market_name, total_price, creator_id };
-            
+
             const newList = await ListReposirtory.create(listData);
 
             const listId =  newList[0].id;
 
-            await ListReposirtory.addUserToList(userExists, listId, role_user);
+            await ListReposirtory.addUserToList(creator_id, listId, role_user);
 
             return res.status(201).json({ message: 'Lista criada com sucesso', list: newList });
         } catch (err) {

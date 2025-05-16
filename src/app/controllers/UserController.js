@@ -26,7 +26,7 @@ class UserController {
         }
 
         const existingUser = await UserRepository.findByEmail(email)
-        if(!existingUser) {
+        if(existingUser) {
             return res.status(409).json({message: 'Email já cadastrado'})
         }
 
