@@ -19,6 +19,12 @@ class UserRepository {
         return query(sql, id, 'Não foi possível buscar o usuário')
     }
 
+    async existsById(id) {
+        const sql = 'SELECT 1 FROM user WHERE id = ? LIMIT 1;'
+        const result = await query(sql, id, 'Erro ao verificar se usuário existe')
+        return result.length > 0
+    }
+
     async findByEmail(email) {
         const sql = 'SELECT * FROM user WHERE email = ?;';
         const result = await query(sql, email, 'Erro ao buscar usuário');
