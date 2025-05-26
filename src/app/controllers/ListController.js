@@ -18,14 +18,14 @@ class ListController {
     }
 
     async store(req, res) {
-        const { name, market_name, creator_id, total_price, role_user = 'owner' } = req.body;
+        const { name, market_name, creator_id, price_total, role_user = 'owner' } = req.body;
     
         try {
             const userExists = await UserRepository.existsById(creator_id)
             if(!userExists) {
                 return res.status(404).json({ message: 'Usuário criador não encontrado' });
             }
-            const listData = { name, market_name, total_price, creator_id };
+            const listData = { name, market_name, price_total, creator_id };
 
             const newList = await ListReposirtory.create(listData);
 
