@@ -2,18 +2,16 @@ import {query} from "../database/connection.js"
 
 class ItemRepository {
 
-    //caso mude o DB, é necessário refatorar
     async create(item) {
         const sql = 'INSERT INTO item SET ?;'
         const result = await query(sql, item, 'Não foi possível cadastrar')
 
-        return this.findById(result.insertId) //aqui utiliza async await pq tem que esperar o resultado para depois fazer a query
-        
+        return this.findById(result.insertId) 
     }
 
     findAll() {
         const sql = 'SELECT * FROM item;'
-        return query(sql, 'Não foi possível buscar') //nao utiliza async await pq a Promise omite 
+        return query(sql, 'Não foi possível buscar') 
     }
 
     findById(id) {
@@ -37,6 +35,11 @@ class ItemRepository {
         const result = await this.findById(id)
 
         return result
+    }
+    
+    async addItemToList(listId, itemId, quantity) {
+        const sql = 'INSERT INTO item_list (list_id, item_id, quantity) VALUES (?, ?, ?);'
+        return await query (sql, [listId, itemId, quantity], 'Erro ao associar item a Lista')
     }
 }
 

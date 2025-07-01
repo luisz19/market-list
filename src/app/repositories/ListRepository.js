@@ -35,10 +35,7 @@ class ListRepository {
         return await query(sql, [userId, listId, user_role], 'Não foi possível associar lista ao usuário')
     }
 
-    async addItemToList(listId, itemId, quantity) {
-        const sql = 'INSERT INTO item_list VALUES ?;'
-        return await query (sql, [listId, itemId, quantity], 'Erro ao associar item a Lista')
-    }
+    
 
 }
 
