@@ -43,3 +43,15 @@ CREATE TABLE item_list (
     FOREIGN KEY (item_id) REFERENCES item(id),
     FOREIGN KEY (list_id) REFERENCES list(id)
 );
+
+ALTER TABLE user_list DROP FOREIGN KEY user_list_ibfk_2;
+ALTER TABLE item_list DROP FOREIGN KEY item_list_ibfk_2;
+
+-- Recrie as constraints com ON DELETE CASCADE
+ALTER TABLE user_list 
+ADD CONSTRAINT user_list_ibfk_2 
+FOREIGN KEY (list_id) REFERENCES list(id) ON DELETE CASCADE;
+
+ALTER TABLE item_list 
+ADD CONSTRAINT item_list_ibfk_2 
+FOREIGN KEY (list_id) REFERENCES list(id) ON DELETE CASCADE;
