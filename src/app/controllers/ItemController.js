@@ -18,12 +18,20 @@ class ItemController {
     }
     
 async store(req, res) {
-    const {name, category, price, list_id = 3, quantity = 1} = req.body
+    let listId = 5
+    let quantityItem = 20
+    
+    const {name, category, price, list_id = listId, quantity = quantityItem} = req.body
+
+    //os valores listId, quantity e list_id são hardcoded para teste
+
+    // serão passados pelo body da requisição no frontend (guardar valor na variavel e passar no body)
+    
 
     console.log("Body recebido:", req.body);
 
     try {
-        const listExists = await ListRepository.findById(3)
+        const listExists = await ListRepository.findById(listId)
         console.log("Lista encontrada:", listExists); //item hardcoded para teste
 
         if(!listExists || listExists.length === 0) {

@@ -55,3 +55,32 @@ FOREIGN KEY (list_id) REFERENCES list(id) ON DELETE CASCADE;
 ALTER TABLE item_list 
 ADD CONSTRAINT item_list_ibfk_2 
 FOREIGN KEY (list_id) REFERENCES list(id) ON DELETE CASCADE;
+
+-- Remover a tabela existente user_list
+DROP TABLE IF EXISTS user_list;
+
+-- Criar a nova tabela de compartilhamento
+CREATE TABLE list_sharing (
+    shared_by_user_id INTEGER NOT NULL,
+    shared_with_user_id INTEGER NOT NULL,
+    list_id INTEGER NOT NULL,
+    permission VARCHAR(20) NOT NULL,
+    PRIMARY KEY (shared_by_user_id, shared_with_user_id, list_id),
+    FOREIGN KEY (shared_by_user_id) REFERENCES user(id),
+    FOREIGN KEY (shared_with_user_id) REFERENCES user(id),
+    FOREIGN KEY (list_id) REFERENCES list(id) ON DELETE CASCADE
+);
+
+-- Opcional: Adicionar trigger ou lógica no ListController para incluir o criador automaticamente
+-- Exemplo de trigger (ajuste conforme seu banco):
+/*
+DELIMITER //
+CREATE TRIGGER after_list_insert
+AFTER INSERT ON list
+FOR EACH ROW
+BEGIN
+    INSERT INTO list_sharing (shared_by_user_id, shared_with_user_id, list_id, permission)
+    VALUES (NEW.creator_id, NEW.creator_id, NEW.id, 'owner');
+END//
+DELIMITER ;
+*/

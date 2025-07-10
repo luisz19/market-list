@@ -18,22 +18,22 @@ class ListController {
     }
 
     async store(req, res) {
-        const { name, market_name, creator_id, price_total, role_user = 'owner' } = req.body;
+        const { name, market_name, creator_id } = req.body;
     
         try {
             const userExists = await UserRepository.existsById(creator_id)
             if(!userExists) {
                 return res.status(404).json({ message: 'Usuário criador não encontrado' });
             }
-            const listData = { name, market_name, price_total, creator_id };
+            const listData = { name, market_name, creator_id };
 
-            const newList = await ListRepository.create(listData);
+            const response = await ListRepository.create(listData);
 
-            const listId =  newList[0].id;
-
-            await ListRepository.addUserToList(creator_id, listId, role_user);
-
-            return res.status(201).json({ message: 'Lista criada com sucesso', list: newList });
+            return res.status(201).json({
+                message: 'Lista criada com sucesso',
+                list: response
+            });
+            
         } catch (err) {
             console.error(err);
             return res.status(500).json({ message: 'Erro ao criar lista' });
