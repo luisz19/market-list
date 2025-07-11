@@ -38,7 +38,9 @@ class UserController {
 
         const row = await UserRepository.create(user)
 
-        return res.status(201).json(row)
+        const token = jwt.sign({id: row[0].id}, SECRET_KEY, {expiresIn: '1h'})
+
+        return res.status(201).json({row, token})
     }
 
     async login (req, res) {
