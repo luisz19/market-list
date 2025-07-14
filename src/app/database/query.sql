@@ -71,6 +71,12 @@ CREATE TABLE list_sharing (
     FOREIGN KEY (list_id) REFERENCES list(id) ON DELETE CASCADE
 );
 
+ALTER TABLE list_sharing 
+MODIFY COLUMN permission ENUM('owner', 'editor', 'visitor') DEFAULT 'visitor' NOT NULL;
+
+ALTER TABLE list_sharing
+ADD COLUMN token VARCHAR(255) UNIQUE NOT NULL;
+
 -- Opcional: Adicionar trigger ou lógica no ListController para incluir o criador automaticamente
 -- Exemplo de trigger (ajuste conforme seu banco):
 /*
