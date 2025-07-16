@@ -2,6 +2,7 @@ import { Router } from "express";
 import ItemController from './app/controllers/ItemController.js'
 import UserController from "./app/controllers/UserController.js";
 import ListController from "./app/controllers/ListController.js";
+import ShareListController from "./app/controllers/ShareListController.js";
 
 const router = Router()
 
@@ -24,5 +25,11 @@ router.get('/list/:id', ListController.show)
 router.post('/lists', ListController.store)
 router.delete('/list/:id', ListController.delete)
 router.put('/list/:id', ListController.update)
+
+router.post('/list/:id/sharing', ShareListController.store)
+router.get('/shared-lists', ShareListController.index)
+router.get('/shared-list/:id', ShareListController.show)
+router.put('/shared-list/:id', ShareListController.update)
+router.delete('/shared-list/:id', ShareListController.delete)
 
 export default router
