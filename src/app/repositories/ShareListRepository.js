@@ -1,36 +1,50 @@
-import { query } from "../database/connection"
+import { query } from "../database/connection.js";
 
 class ShareListRepository {
     async create(shareList) {
-        const { shared_by_user_id, shared_with_user_id, list_id, permission, token } = shareData;
 
         const sql = 'INSERT INTO list_sharing SET ?;'
         const result = await query(sql, shareList, 'Não foi possível criar lista compartilhada')
+        console.log('Lista compartilhada criada com sucesso!')
 
-        return this.findById(result.insertId)
+        return result
     }
-    //corrigir inconsistências
 
     findAll() {
         const sql = 'SELECT * FROM list_sharing;'
         return query(sql, 'Não foi possível buscar listas compartilhadas')
     }
 
-    findById(id) {
-        const sql = 'SELECT * FROM list_sharing WHERE id = ?;'
-        return query(sql, id, 'Não foi possível buscar a lista compartilhada')
+    async findByToken(token) {
+        const sql = `
+            SELECT 
+                ls.*, 
+                l.name as list_name, 
+                l.market_name, 
+                l.price_total, 
+                l.date,
+                u.name as owner_name
+            FROM list_sharing ls
+            INNER JOIN list l ON ls.list_id = l.id
+            INNER JOIN user u ON ls.shared_by_user_id = u.id
+            WHERE ls.token = ?
+        `;
+        
+        const result = await query(sql, [token], 'Não foi possível buscar lista pelo token');
+        return result[0];
     }
 
-    async getSharedList(listToken, listId) {
-        const sql = "SELECT list.id AS list_id, list.name AS list_name, list.market_name, list.price_total, list.date, list_sharing.permission, list_sharing.token FROM list_sharing INNER JOIN list ON list_sharing.list_id = list.id WHERE list_sharing.token = ? AND list.id = ?"
+    async findByPermission(listId, userId) {
+        const sql = `
+            SELECT * FROM list_sharing
+            WHERE list_id = ? AND shared_with_user_id = ?
+            ORDER BY shared_by_user_id DESC LIMIT 1
+        `
 
-        const result = await query(sql, [listToken, listId], 'Não foi possível buscar lista compartilhada pelo token')
+        const result = await query(sql, [listId, userId], 'Não foi possível buscar lista compartilhada por permissão')
 
-        console.log('Resultado da busca por lista compartilhada:', result)
-
-        return result
+        return result[0]
     }
-    //ver como fazer para pegar por URL
 
     async update(shareList, id) {
         const sql = 'UPDATE list_sharing SET ? WHERE id = ?;'
@@ -44,3 +58,5 @@ class ShareListRepository {
         return query(sql, id, 'Não foi possível deletar lista compartilhada')
     }
 }
+
+export default new ShareListRepository()

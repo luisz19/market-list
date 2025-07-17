@@ -28,7 +28,7 @@ router.put('/list/:id', ListController.update)
 
 router.post('/list/:id/sharing', ShareListController.store)
 router.get('/shared-lists', ShareListController.index)
-router.get('/shared-list/:id', ShareListController.show)
+router.get('/shared-list/token/:token', ShareListController.show)
 router.put('/shared-list/:id', ShareListController.update)
 router.delete('/shared-list/:id', ShareListController.delete)
 

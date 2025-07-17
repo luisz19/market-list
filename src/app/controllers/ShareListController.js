@@ -1,5 +1,5 @@
 import ShareListRepository from '../repositories/ShareListRepository.js'
-const crypto = require('crypto')
+import crypto from 'crypto'
 
 class ShareListController {
     async index(req, res) {
@@ -8,8 +8,8 @@ class ShareListController {
     }
 
     async show (req, res) {
-        const id = req.params.id
-        const row = await ShareListRepository.findById(id)
+        const {token} = req.params
+        const row = await ShareListRepository.findByToken(token)
         res.status(200).json(row)
     }
 
@@ -17,7 +17,8 @@ class ShareListController {
         const tokenToSharing = crypto.randomBytes(16).toString('hex')
 
         console.log('Token gerado para compartilhamento:', tokenToSharing) 
-        const { shared_by_user_id, shared_with_user_id, list_id, permission, token  } = req.body
+        const { shared_by_user_id, shared_with_user_id, permission, token  } = req.body
+        const list_id = req.params.id
 
         if (!shared_by_user_id || !shared_with_user_id || !list_id || !permission || !token) {
             return res.status(400).json({ message: 'Erro ao obter dados' })
