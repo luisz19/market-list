@@ -37,6 +37,7 @@ CREATE TABLE item_list (
 
 -- Criar a nova tabela de compartilhamento
 CREATE TABLE list_sharing (
+    id SERIAL NOT NULL,
     shared_by_user_id INTEGER NOT NULL,
     shared_with_user_id INTEGER NOT NULL,
     list_id INTEGER NOT NULL,
